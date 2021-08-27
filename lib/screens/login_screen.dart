@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:karma_app/utility/custom_button.dart';
 
 import 'karma_drive_page.dart';
 
@@ -200,27 +201,9 @@ class _LoginScreenState extends State<LoginScreen> {
 
               ),
             ),
-            MaterialButton(
-              onPressed: (){
-
-              },
-              textColor: Colors.white,
-              color: Color(0xff53E40D),
-              child: SizedBox(
-                width: width/3.9,
-                child: Text(
-                  "Login",
-                  style: TextStyle(
-                      fontSize: 15
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-              ),
-              height: 45,
-              // minWidth: 600,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(10))),
-            ),
+            CustomButton(width: width/3.9,onPressed: (){
+              Navigator.pushReplacementNamed(context, KarmaDrivePage.id);
+            }, title: 'Login', backgroundColor: Color(0xff53E40D), titleColor: Colors.white, height: 45,),
             SizedBox(
               height: 10,
             ),
@@ -255,6 +238,8 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 }
+
+
 
 class CustomShape extends CustomClipper<Path> {
   @override
