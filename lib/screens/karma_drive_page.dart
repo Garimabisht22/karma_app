@@ -16,14 +16,15 @@ class _KarmaDrivePageState extends State<KarmaDrivePage> {
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
+    final width = MediaQuery.of(context).size.width;
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: Color(0xffFF8400),
       body: Column(
         children: [
-          Container(
-            margin: EdgeInsets.symmetric(horizontal: 30,vertical: 35),
+          Container(height: width/2.5,
+            margin: EdgeInsets.symmetric(horizontal: 30,vertical: 25),
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: Column(
@@ -113,7 +114,7 @@ class _KarmaDrivePageState extends State<KarmaDrivePage> {
             ),
           ),
           Container(
-            height: height/1.37,
+            height: height/1.343,
             width: double.maxFinite,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.only(

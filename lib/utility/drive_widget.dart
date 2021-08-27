@@ -108,7 +108,7 @@ class _DriveWidgetState extends State<DriveWidget> {
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
                       CustomButton(
-                        width: 120,
+                        width: width/4,
                         onPressed: () {},
                         title: 'JOINED',
                         backgroundColor: Color(0xff53E40D),
@@ -117,7 +117,7 @@ class _DriveWidgetState extends State<DriveWidget> {
                         radius: 15,
                       ),
                       CustomButton(
-                        width: 120,
+                        width: width/4,
                         radius: 15,
                         onPressed: () {},
                         title: 'DO KARMA',
