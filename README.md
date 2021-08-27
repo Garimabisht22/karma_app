@@ -1,6 +1,6 @@
 # karma_app
 
-A new Flutter project.
+Hackerkernel Assignment
 
 ## Getting Started
 
