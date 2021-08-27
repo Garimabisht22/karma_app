@@ -10,7 +10,8 @@ class _CustomSwitchState extends State<CustomSwitch>
     with SingleTickerProviderStateMixin {
   late AnimationController _animationController;
   late Animation<double> _animation;
-  bool notifications = true;
+  bool notifications = false;
+  String switchText = "";
 
   double value = 0;
 
@@ -39,10 +40,10 @@ class _CustomSwitchState extends State<CustomSwitch>
           Container(
             width: 75,
             height: 30,
-            child:notifications? Padding(
+            child:Padding(
               padding: const EdgeInsets.symmetric(horizontal: 18.0,vertical: 6),
-              child: Text("ON",style: TextStyle(color: Colors.white,fontFamily: "OpenSans"),),
-            ):Text(""),
+              child: Text(switchText,style: TextStyle(color: Colors.white,fontFamily: "OpenSans"),),
+            ),
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.all(Radius.circular(6)),
                 color: Color(0xffFF8400)),
@@ -74,7 +75,13 @@ class _CustomSwitchState extends State<CustomSwitch>
           _animationController.reverse();
         } else
           _animationController.forward();
-        notifications = !notifications;
+        setState(() {
+          notifications = !notifications;
+          if(notifications==true)
+            switchText = "ON";
+          else
+            switchText = "";
+        });
       },
     );
   }

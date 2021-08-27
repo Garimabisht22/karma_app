@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:karma_app/utility/custom_button.dart';
+import 'package:http/http.dart' as http;
 
 import 'karma_drive_page.dart';
 
@@ -13,12 +15,51 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  TextEditingController _phoneController = TextEditingController();
-  TextEditingController _otpController = TextEditingController();
 
-  String phoneTextFieldHint = "Phone Number";
+  TextEditingController _emailController = TextEditingController();
+  TextEditingController _passwordController = TextEditingController();
+  String phoneTextFieldHint = "Email";
   String passwordTextFieldHint = "Password";
   bool passwordHidden = true;
+  bool _showLoading= false;
+  Widget spin = SpinKitThreeBounce(
+    color: Color(0xffFF8400),
+    size: 50.0,
+    //lineWidth: 30,
+   );
+
+  Future<void> login() async{
+    setState(() {
+      _showLoading=true;
+    });
+
+    if(_passwordController.text.isNotEmpty && _emailController.text.isNotEmpty){
+      var response = await http.post(Uri.parse("https://reqres.in/api/login"),
+          body: ({
+            "email": _emailController.text,
+            "password":_passwordController.text
+          }));
+
+      if(response.statusCode == 200){
+         Navigator.pushReplacementNamed(context, KarmaDrivePage.id);
+      }
+      else{
+        setState(() {
+          _showLoading=false;
+        });
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("*Invalid Credentials")));
+      }
+    }
+    else
+      {
+        setState(() {
+          _showLoading=false;
+        });
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("*Password Required")));
+    }
+
+  }
+
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
@@ -26,7 +67,6 @@ class _LoginScreenState extends State<LoginScreen> {
 
     return GestureDetector(
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
-
       child: Scaffold(
         resizeToAvoidBottomInset: false, // set it to false
 
@@ -101,21 +141,14 @@ class _LoginScreenState extends State<LoginScreen> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 33.0, vertical: 25),
               child: TextField(
-                inputFormatters: [
-                  LengthLimitingTextInputFormatter(10),
-                ],
                 style: TextStyle(color: Colors.black),
-                controller: _phoneController,
+                controller: _emailController,
                 cursorColor: Colors.black,
-                keyboardType: TextInputType.phone,
+                keyboardType: TextInputType.emailAddress,
                 onChanged: (value) {},
                 decoration: InputDecoration(
                   fillColor: Color(0xA6F0F0F0),
                   hintText: phoneTextFieldHint,
-                  // errorText: _validatePhoneNo ? null : _errorPhoneNo,
-                  //  errorStyle: TextStyle(
-                  //    color: Colors.white,
-                  //  ),
                   errorMaxLines: 2,
                   filled: true,
                   hintStyle: TextStyle(color: Colors.black),
@@ -152,7 +185,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           // autofocus: true,
                           obscureText: passwordHidden,
                           style: TextStyle(color: Colors.black),
-                          controller: _otpController,
+                          controller: _passwordController,
                           cursorColor: Color(0xffA5A5A5),
                           onChanged: (onChanged) {},
                           decoration: InputDecoration(
@@ -201,9 +234,12 @@ class _LoginScreenState extends State<LoginScreen> {
 
               ),
             ),
-            CustomButton(width: width/3.9,onPressed: (){
-              Navigator.pushReplacementNamed(context, KarmaDrivePage.id);
-            }, title: 'Login', backgroundColor: Color(0xff53E40D), titleColor: Colors.white, height: 45,),
+           _showLoading?spin:CustomButton(width: width/3.9,
+              onPressed: (){
+              login();
+             // Navigator.pushReplacementNamed(context, KarmaDrivePage.id);
+            },
+              title: 'Login', backgroundColor: Color(0xff53E40D), titleColor: Colors.white, height: 45,),
             SizedBox(
               height: 10,
             ),
@@ -223,7 +259,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           color: Colors.amber.shade800,
                         )),
                     onPressed: () {
-                      Navigator.pushReplacementNamed(context, KarmaDrivePage.id);
+                     // Navigator.pushReplacementNamed(context, KarmaDrivePage.id);
                     },
                   ),
                 ],
