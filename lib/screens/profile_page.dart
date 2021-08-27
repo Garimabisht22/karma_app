@@ -79,7 +79,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   child: Container(
                     width: double.maxFinite,
                     height: width,
-                    margin: EdgeInsets.symmetric(vertical: 60, horizontal: 15),
+                    margin: EdgeInsets.symmetric(vertical: 70, horizontal: 15),
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Column(
@@ -329,7 +329,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   ),
                 ),
                 Container(
-                  margin: EdgeInsets.only(top: width / 4),
+                  margin: EdgeInsets.only(top: width / 5),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,

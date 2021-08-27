@@ -28,38 +28,43 @@ class _LoginScreenState extends State<LoginScreen> {
     //lineWidth: 30,
    );
 
-  Future<void> login() async{
+  Future<void> login() async {
     setState(() {
-      _showLoading=true;
+      _showLoading = true;
     });
-
-    if(_passwordController.text.isNotEmpty && _emailController.text.isNotEmpty){
-      var response = await http.post(Uri.parse("https://reqres.in/api/login"),
-          body: ({
-            "email": _emailController.text,
-            "password":_passwordController.text
-          }));
-
-      if(response.statusCode == 200){
-         Navigator.pushReplacementNamed(context, KarmaDrivePage.id);
+    try {
+      if (_passwordController.text.isNotEmpty &&
+          _emailController.text.isNotEmpty) {
+        var response = await http.post(Uri.parse("https://reqres.in/api/login"),
+            body: ({
+              "email": _emailController.text,
+              "password": _passwordController.text
+            }));
+        print(response.statusCode);
+        if (response.statusCode == 200) {
+          Navigator.pushReplacementNamed(context, KarmaDrivePage.id);
+        }
+        else {
+          setState(() {
+            _showLoading = false;
+          });
+          ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text("*Invalid Credentials")));
+        }
       }
-      else{
+      else {
         setState(() {
-          _showLoading=false;
+          _showLoading = false;
         });
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("*Invalid Credentials")));
+        ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text("*Password Required")));
       }
     }
-    else
-      {
-        setState(() {
-          _showLoading=false;
-        });
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("*Password Required")));
+    catch(e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("*Password Required")));
     }
-
   }
-
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
@@ -69,7 +74,6 @@ class _LoginScreenState extends State<LoginScreen> {
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
       child: Scaffold(
         resizeToAvoidBottomInset: false, // set it to false
-
         body: Column(
           children: [
             ClipPath(

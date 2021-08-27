@@ -21,9 +21,10 @@ class _KarmaDrivePageState extends State<KarmaDrivePage> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: Color(0xffFF8400),
-      body: Column(
+      body: Stack(
         children: [
-          Container(height: width/2.5,
+          Container(
+            //height: width/2.5,
             margin: EdgeInsets.symmetric(horizontal: 30,vertical: 25),
             child: Padding(
               padding: const EdgeInsets.all(8.0),
@@ -37,7 +38,7 @@ class _KarmaDrivePageState extends State<KarmaDrivePage> {
                           GestureDetector(
                             child: CircleAvatar(
                               backgroundImage:
-                                  AssetImage('assets/images/profile_image.png'),
+                              AssetImage('assets/images/profile_image.png'),
                               radius: 30,
                             ),
                             onTap: () {
@@ -90,13 +91,13 @@ class _KarmaDrivePageState extends State<KarmaDrivePage> {
                         children: [
                           Expanded(
                               child: TextField(
-                            // textAlign: TextAlign.center,
-                            decoration: InputDecoration(
-                                hintText: searchBarHint,
-                                border: InputBorder.none,
-                                hintStyle: TextStyle(
-                                    color: Color(0xff989898), fontSize: 16)),
-                          )),
+                                // textAlign: TextAlign.center,
+                                decoration: InputDecoration(
+                                    hintText: searchBarHint,
+                                    border: InputBorder.none,
+                                    hintStyle: TextStyle(
+                                        color: Color(0xff989898), fontSize: 16)),
+                              )),
                           CircleAvatar(
                             child: Icon(
                               Icons.search_outlined,
@@ -113,26 +114,31 @@ class _KarmaDrivePageState extends State<KarmaDrivePage> {
               ),
             ),
           ),
-          Container(
-            height: height/1.343,
-            width: double.maxFinite,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(35),
-                topRight: Radius.circular(35)
+          Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Container(
+                  height: height/1.35,
+                  width: double.maxFinite,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(35),
+                        topRight: Radius.circular(35)
+                    ),
+                    color: Colors.white,
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 15.0),
+                    child: ListView.builder(
+                        scrollDirection: Axis.vertical,
+                        itemCount: 10,
+                        itemBuilder: (BuildContext context, int index) {
+                          return DriveWidget();
+                        }
+                    ),
+                  )
               ),
-              color: Colors.white,
-            ),
-            child: Padding(
-              padding: const EdgeInsets.only(top: 15.0),
-              child: ListView.builder(
-                scrollDirection: Axis.vertical,
-                itemCount: 10,
-                itemBuilder: (BuildContext context, int index) {
-                 return DriveWidget();
-                }
-              ),
-            )
+            ],
           ),
         ],
       ),
